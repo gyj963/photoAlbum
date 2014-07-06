@@ -22,12 +22,24 @@ img{
 li.vertical{
 	height:100px;
 }
-li.horizontal{
-	width: 130px;
-}
 img.vertical{
 	width:80px;
+}
+li.horizontal{
+	width: 130px;
 }
 img.horizontal{
 	height: 100px;
 }
+
+li.square{
+	width:100px;
+	height:100px;
+}
+img.square_horizontal{
+	height:100px;
+}
+img.square_vertical{
+	width:100px;
+}
+
