@@ -1,30 +1,6 @@
 /**
  * Created by Administrator on 14-7-4.
  */
-var photolist=[
-	{
-		"src":"images/1.jpg"
-	},
-	{
-		"src":"images/2.jpg"
-	},
-	{
-		"src":"images/9.jpg"
-	},
-	{
-		"src":"images/4.jpg"
-	},
-	{
-		"src":"images/5.jpg"
-	},
-	{
-		"src":"images/6.jpg"
-	},
-	{
-		"src":"images/8.jpg"
-	}
-];
-
 function photoAlbum(opts){
 	this._container=document.getElementById(opts.containerId);
 	this._photos=opts.list;
@@ -48,6 +24,7 @@ photoAlbum.prototype.init=function()
 	this._breviaryUl=document.createElement("ul");
 	this._wholeCount=this._photos.length;
 	this._marginBottom="5px";
+
 	switch (this._style){
 		case "ratio":
 			this._lisInOneLine=[];
@@ -59,14 +36,13 @@ photoAlbum.prototype.init=function()
 	}
 };
 
-photoAlbum.prototype.renderDOM=function()
-{
+photoAlbum.prototype.renderDOM=function(){
 	var parent=this
-//	    当前是第几张图
-	,curphoto=0;
+		,curphoto=0;    //	    当前是第几张图
+
 	for(var i=0;i<parent._wholeCount;i++){
-		//	正在处理的照片的索引
 		var img=new Image();
+
 		img.onload = function(){
 			this._li=document.createElement("li");
 			this._img=document.createElement("img");
@@ -82,6 +58,7 @@ photoAlbum.prototype.renderDOM=function()
 					break;
 			}
 		};
+
 		img.src = this._photos[i].src;
 	}
 	parent._breviary.appendChild(parent._breviaryUl);
@@ -89,10 +66,9 @@ photoAlbum.prototype.renderDOM=function()
 };
 
 photoAlbum.prototype.renderImgs_ratio=function(parent,_this,_curphoto){
-//	    目前照片宽度
-	var thisLiW=0
-//	    横版还是竖版？
-	,ratio_style="";
+	var thisLiW=0           //	    目前照片宽度
+		,ratio_style="";    //	    横版还是竖版？
+
 //	如果图片宽度比高度大20%，则认为这张图是横版, 否则认为是竖版
 	if(_this.width/_this.height>1.2){
 //		横版   (缩略图尺寸 130[宽]*100[高])
@@ -103,9 +79,9 @@ photoAlbum.prototype.renderImgs_ratio=function(parent,_this,_curphoto){
 		ratio_style="vertical";
 		thisLiW=80;
 	}
-	_this._img.className=ratio_style;
+	_this._img.setAttribute("class",ratio_style);
 	_this._li.appendChild(_this._img);
-	_this._li.className=ratio_style;
+	_this._li.setAttribute("class",ratio_style+" animated bounceIn");
 	if(parent._lisInOneLineWidth+thisLiW<=parent._winW){
 		parent._lisInOneLineWidth+=thisLiW;
 		parent._lisInOneLine.push(_this._li);
@@ -122,16 +98,12 @@ photoAlbum.prototype.renderImgs_ratio=function(parent,_this,_curphoto){
 };
 
 photoAlbum.prototype.renderImgs_square=function(parent,_this,_curphoto){
-//	目前照片宽度
-	var thisLiW=100
-//	图片相隔最小间隙（padding）
-	,minPadding=0
-//	一行能放的图个数
-	,numOfLine=Math.floor(parent._winW/(thisLiW+minPadding))
-//	实际图片相隔间隙
-	,paddingLeft=(parent._winW-numOfLine*thisLiW)/numOfLine
-//	横版还是竖版？
-	,square_style="";
+	var thisLiW=100         //	目前照片宽度
+		,minPadding=0       //	图片相隔最小间隙（padding）
+		,numOfLine=Math.floor(parent._winW/(thisLiW+minPadding))  //	一行能放的图个数
+		,paddingLeft=(parent._winW-numOfLine*thisLiW)/numOfLine   //	实际图片相隔间隙
+		,square_style="";   //	横版还是竖版？
+
 //	如果图片宽度比高度大20%，则认为这张图是横版, 否则认为是竖版
 	if(_this.width/_this.height>1.2){
 //		横版图 方块风格   (缩略图尺寸 100[宽]*100[高] 高显示完全，以填充满整个方块)
@@ -140,9 +112,11 @@ photoAlbum.prototype.renderImgs_square=function(parent,_this,_curphoto){
 //		竖版图 方块风格   (缩略图尺寸 100[宽]*100[高] 宽显示完全，以填充满整个方块)
 		square_style="square_vertical";
 	}
-	_this._img.className=square_style;
+//	_this._img.className=square_style+",zoom";
+	_this._img.setAttribute("class",square_style);
 	_this._li.appendChild(_this._img);
-	_this._li.className="square";
+	_this._li.setAttribute("class","square animated bounceIn");
+
 //	如果是每行第一个图片就不加paddingLeft 不然就要加
 	if(_curphoto%numOfLine!=1){
 		_this._li.style.paddingLeft=paddingLeft+"px";
@@ -152,10 +126,9 @@ photoAlbum.prototype.renderImgs_square=function(parent,_this,_curphoto){
 };
 
 photoAlbum.prototype.renderPaddingOfLi=function(){
-//	一行能放的图个数
-	var numOfLine=this._lisInOneLine.length
-//	图片相隔间隙
-	,paddingLeft=0;
+	var numOfLine=this._lisInOneLine.length  //	一行能放的图个数
+		,paddingLeft=0;    //	图片相隔间隙
+
 	if(numOfLine>1){
 		paddingLeft=Math.floor((this._winW-this._lisInOneLineWidth)/numOfLine);
 	}
@@ -168,73 +141,118 @@ photoAlbum.prototype.renderPaddingOfLi=function(){
 		this._breviaryUl.appendChild(_thisLi);
 	}
 };
-photoAlbum.prototype.loadImg=function(parent,_curImgId){
-	var curImg=document.getElementById(_curImgId);
-	console.log("curImg :",curImg);
-	var largeImg=new Image();
+
+//	        direction是显示图像来的方向
+photoAlbum.prototype.loadImg=function(parent,_curImgId,direction){
+	var curImg=document.getElementById(_curImgId)
+		,largeImg=new Image()
+		,largeChildren=parent._large.childNodes;
+
 	largeImg.onload=function(){
-		var ratio_img=curImg.height/curImg.width;
-		var ratio_win=parent._winH/parent._winW;
-		var img=document.createElement("img");
+		var ratio_img=curImg.height/curImg.width
+			,ratio_win=parent._winH/parent._winW
+			,imgEffect="animated "
+			,img=document.createElement("img");
 		img.src = curImg.src;
+		if(direction){
+			switch (direction){
+				case "left":
+					imgEffect+="bounceInLeft";
+					break;
+				case "right":
+					imgEffect+="bounceInRight";
+					break;
+				default :
+					imgEffect+="bounceIn";
+					break;
+			}
+		}
 //		ratio_img<=ratio_win则认为这是一张横版
 		if(ratio_img<=ratio_win){
 			img.width=parent._winW;
-//			算出图片真实高度
-			var realH=ratio_img*img.width;
-//			算出图片上方留白
-			var panddingTop=parseInt((parent._winH-realH)/2);
+			var realH=ratio_img*img.width     //算出图片真实高度
+				,panddingTop=parseInt((parent._winH-realH)/2);  //算出图片上方留白
 			img.style.paddingTop=panddingTop+"px";
 		}
 //		ratio_img>ratio_win则认为这是一张竖版
 		else if(ratio_img>ratio_win){
 			img.height=parent._winH;
-			var realW=img.height/ratio_img;
-//			算出图片左边留白
-			var paddingLeft=parseInt((parent._winW-realW)/2);
+			var realW=img.height/ratio_img     //算出图片真实宽度
+				,paddingLeft=parseInt((parent._winW-realW)/2);  //算出图片左边留白
 			img.style.paddingLeft=paddingLeft+"px";
 		}
-		var largeChildren=parent._large.childNodes;
 		if(largeChildren.length>0){
 			parent._large.removeChild(largeChildren[0]);
 		}
+		img.setAttribute("class",imgEffect);
 		parent._large.appendChild(img);
-	}
+	};
+
 	largeImg.src = curImg.src;
-}
+};
 
 photoAlbum.prototype.bindDOM=function()
 {
-	var parent=this;
-	var curImg={};
+	var parent=this
+		,curImgId={};
+
 	$(this._breviary).on("tap","img",function(){
+		curImgId=this.id;
+		parent._large.style.opacity=0;
 		parent._large.style.display="block";
-		curImg=this;
-		var curImgId=this.id;
+//		渐显
+		fade(parent._large,"show");
 		parent.loadImg(parent,curImgId);
 	});
 	$(this._large).on("tap",function(){
-		parent._large.style.display="none";
+//		渐隐
+		fade(parent._large,"hiden",function(){
+			parent._large.style.display="none";
+		});
 	}).on("swipeRight",function(){
-        var lastImgId=curImg.id-1;
+        var lastImgId=curImgId-1;
         if(lastImgId>=0){
-	        parent.loadImg(parent,lastImgId);
-	        curImg=document.getElementById(lastImgId);
+	        parent.loadImg(parent,lastImgId,"left");
+	        curImgId=lastImgId;
 		}
     }).on("swipeLeft",function(){
-        var nextImgId=parseInt(curImg.id)+1;
-        if(nextImgId<=parent._wholeCount){
-            parent.loadImg(parent,nextImgId);
-	        curImg=document.getElementById(nextImgId);
+        var nextImgId=parseInt(curImgId)+1;
+        if(nextImgId<parent._wholeCount){
+            parent.loadImg(parent,nextImgId,"right");
+	        curImgId=nextImgId;
         }
     });
 };
 
-new photoAlbum({
-	"containerId":"container",
-	"list":photolist,
-//	显示方式：正方形  （每个图片都是小正方形的缩略图）
-	"style":"square"
-////	显示方式：比例  （缩略图能看得出该图片是竖版图还是横版图）
-//	"style":"ratio"
-});
+//渐显渐隐函数
+function fade(obj,method,callback){ //method有两个值show或hiden   callback函数为渐显渐隐结束后的回调函数，若无可省
+	var n = (method == "show") ? 0 : 100,
+		ie = (window.ActiveXObject) ? true : false;
+	var time = setInterval(function(){
+		if(method == "show"){
+			if(n < 100){
+				n+=10;
+				if(ie){
+					obj.style.cssText = "filter:alpha(opacity="+n+")";
+				}else{
+					(n==100) ? obj.style.opacity = 1 : obj.style.opacity = "0."+n;
+				}
+			}else{
+				clearTimeout(time);
+				callback&&callback();
+			}
+		}else{
+			if(n > 0){
+				n-=10;
+				if(ie){
+					obj.style.cssText = "filter:alpha(opacity="+n+")";
+				}else{
+					obj.style.opacity = "0."+n;
+				}
+			}else{
+				clearTimeout(time);
+				callback&&callback();
+			}
+		}
+	},30);
+}

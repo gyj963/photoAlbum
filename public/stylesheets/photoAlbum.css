@@ -43,7 +43,6 @@ img.square_vertical{
 	width:100px;
 }
 
-
 #large{
 	position: absolute;
 	width: 100%;
@@ -51,4 +50,22 @@ img.square_vertical{
 	z-index: 100;
 	display: none;
 	background-color: #050505;
+}
+
+@keyframes zoom{
+	0% {background-color: red;}
+	100% {background-color: green;}
+}
+
+.zoom{
+	animation-name: zoom;
+	animation-duration: 5s;
+	animation-timing-function: linear;
+	animation-delay: 2s;
+	/*animation-iteration-count: infinite;*/
+	/*animation-direction: alternate;*/
+	/*animation-play-state: running;*/
+	/*height: 0;*/
+	/*overflow: hidden;*/
+	/*transition: height .4s cubic-bezier(0, 1.8, 1, 1.8);*/
 }
