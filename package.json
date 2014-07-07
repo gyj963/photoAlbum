@@ -1,9 +1,9 @@
 {
-  "name": "nodejs-demo",
+  "name": "photo album",
   "version": "0.0.1",
   "private": true,
-  "author": "Conan Zhang <bsspirit@gmail.com>",
-  "description": "http://blog.fens.me/nodejs-express3/",
+  "author": "running_snail <505324327@qq.com>",
+//  "description": "http://snailsky.me/...",
   "scripts": {
     "start": "node app.js"
   },

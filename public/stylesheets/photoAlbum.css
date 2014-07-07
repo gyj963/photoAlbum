@@ -43,3 +43,12 @@ img.square_vertical{
 	width:100px;
 }
 
+
+#large{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	display: none;
+	background-color: #050505;
+}
