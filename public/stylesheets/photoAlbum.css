@@ -18,7 +18,7 @@ img{
 #breviary>ul>li{
 	overflow: hidden;
 	float: left;
-	box-shadow: 3px 3px 1px #dddddd;
+	box-shadow: 3px 0px 1px #E3E4E5;
 }
 li.vertical{
 	height:100px;
@@ -32,7 +32,6 @@ li.horizontal{
 img.horizontal{
 	height: 100px;
 }
-
 li.square{
 	width:100px;
 	height:100px;
@@ -43,7 +42,6 @@ img.square_horizontal{
 img.square_vertical{
 	width:100px;
 }
-
 #large{
 	position: absolute;
 	width: 100%;
