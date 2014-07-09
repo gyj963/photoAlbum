@@ -20,33 +20,11 @@ img{
 	float: left;
 	box-shadow: 3px 0px 1px #E3E4E5;
 }
-li.vertical{
-	height:100px;
-}
-img.vertical{
-	width:80px;
-}
-li.horizontal{
-	width: 130px;
-}
-img.horizontal{
-	height: 100px;
-}
-li.square{
-	width:100px;
-	height:100px;
-}
-img.square_horizontal{
-	height:100px;
-}
-img.square_vertical{
-	width:100px;
-}
+
 #large{
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	z-index: 100;
-	display: none;
 	background-color: #1F364A;
 }
