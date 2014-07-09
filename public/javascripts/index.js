@@ -38,5 +38,4 @@ new photoAlbum({
 	               "list":photolist,
 	               "style":"square",   //	显示方式：正方形  （每个图片都是小正方形的缩略图）
 				   "size":100
-//	   "style":"ratio"   //	显示方式：比例  （缩略图能看得出该图片是竖版图还是横版图）
                });
