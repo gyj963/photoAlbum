@@ -36,6 +36,5 @@ var photolist=[
 new photoAlbum({
 	               "containerId":"container",
 	               "list":photolist,
-	               "style":"square",   //	显示方式：正方形  （每个图片都是小正方形的缩略图）
 				   "size":100
                });

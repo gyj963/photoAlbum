@@ -48,8 +48,7 @@ var photolist=[
 new photoAlbum({
 	               "containerId":"container",   //   相册组件容器的id
 	               "list":photolist,   //   图片路径对象列表
-	               "style":"square",   //	显示方式：正方形  （每个图片都是小正方形的缩略图）
-				   "size":100   //每个正方形缩略图的边长
+				   "size":120   //每个正方形缩略图的边长(单位：px)，可省（默认边长：100px）
                });
 ```
 
