@@ -1,18 +1,17 @@
 /**
  * Created by Administrator on 14-7-4.
  */
-function photoAlbum(opts){
+function PhotoAlbum(opts){
 	this._container=document.getElementById(opts.containerId);
 	this._photos=opts.list;
-	this._style=opts.style;
 	this._size=opts.size||100;
 	//构造三部曲
 	this.init();
 	this.renderDOM();
 	this.bindDOM();
-};
+}
 
-photoAlbum.prototype.init=function()
+PhotoAlbum.prototype.init=function()
 {
 	this._winW=window.innerWidth;
 	this._winH=window.innerHeight;
@@ -33,41 +32,15 @@ photoAlbum.prototype.init=function()
 	this._marginBottom="5px";
 };
 
-photoAlbum.prototype.renderDOM=function(){
-	var parent=this
-		,curphoto=0;    //	    当前是第几张图
 
-	for(var i=0;i<parent._wholeCount;i++){
-		var img=new Image();
-		img.onload = function(){
-			var tmpcvs=document.createElement("canvas");
-			tmpcvs.id = curphoto;
-			tmpcvs.setAttribute("data-src",this.src);
-			tmpcvs.setAttribute("data-width",this.width);
-			tmpcvs.setAttribute("data-height",this.height);
-			tmpcvs.width=parent._size;
-			tmpcvs.height=parent._size;
-			this._li=document.createElement("li");
-			this._li.appendChild(tmpcvs);
-			this._cvs=tmpcvs.getContext("2d");
-			curphoto+=1;
-			parent.renderImgs_square(parent, this, curphoto);
-		};
-		img.src = this._photos[i].src;
-	}
-	parent._breviary.appendChild(parent._breviaryUl);
-	parent._container.appendChild(parent._breviary);
-};
-
-photoAlbum.prototype.renderImgs_square=function(parent,thisPhoto,curphotoNo){
-	var thisLiW=parent._size         //	目前照片宽度
-		,minPadding=0       //	图片相隔最小间隙（padding）
-		,marginTop=parent._marginBottom
-		,numOfLine=Math.floor(parent._winW/(thisLiW+minPadding))  //	一行能放的图个数
-		,paddingLeft=(parent._winW-numOfLine*thisLiW)/numOfLine   //	实际图片相隔间隙
-		,zoom_size=thisLiW
-		,zoom_width=0
-		,zoom_height=0;
+PhotoAlbum.prototype.renderImgs_square=function(parent,thisPhoto,curphotoNo){
+	var thisLiW=parent._size,         //	目前照片宽度
+		minPadding= 0,       //	图片相隔最小间隙（padding）
+		marginTop=parent._marginBottom,
+		numOfLine=Math.floor(parent._winW/(thisLiW+minPadding)),  //	一行能放的图个数
+		paddingLeft=(parent._winW-numOfLine*thisLiW)/numOfLine,   //	实际图片相隔间隙
+		zoom_width=0,
+		zoom_height=0;
 
 //	如果图片宽度比高度大20%，则认为这张图是横版, 否则认为是竖版
 	if(thisPhoto.width/thisPhoto.height>1.2){
@@ -91,16 +64,42 @@ photoAlbum.prototype.renderImgs_square=function(parent,thisPhoto,curphotoNo){
 	parent._breviaryUl.appendChild(thisPhoto._li);
 };
 
+PhotoAlbum.prototype.renderDOM=function(){
+	var parent=this,
+		curphoto=0;    //	    当前是第几张图
+
+	for(var i=0;i<parent._wholeCount;i++){
+		var img=new Image();
+		img.onload = function(){
+			var tmpcvs=document.createElement("canvas");
+			tmpcvs.id = curphoto;
+			tmpcvs.setAttribute("data-src",this.src);
+			tmpcvs.setAttribute("data-width",this.width);
+			tmpcvs.setAttribute("data-height",this.height);
+			tmpcvs.width=parent._size;
+			tmpcvs.height=parent._size;
+			this._li=document.createElement("li");
+			this._li.appendChild(tmpcvs);
+			this._cvs=tmpcvs.getContext("2d");
+			curphoto+=1;
+			parent.renderImgs_square(parent, this, curphoto);
+		};
+		img.src = this._photos[i].src;
+	}
+	parent._breviary.appendChild(parent._breviaryUl);
+	parent._container.appendChild(parent._breviary);
+};
+
 //	        direction是显示图像来的方向
-photoAlbum.prototype.loadImg=function(parent,_curImgId,action,callback){
-	var curImgCvs=document.getElementById(_curImgId)
-		,ratio_img=curImgCvs.getAttribute("data-height")/curImgCvs.getAttribute("data-width")
-		,ratio_win=parent._winH/parent._winW
-		,largeImg=new Image()
-		,paddingTop=0
-		,paddingLeft=0
-		,realH=0
-		,realW=0;
+PhotoAlbum.prototype.loadImg=function(parent,_curImgId,action,callback){
+	var curImgCvs=document.getElementById(_curImgId),
+		ratio_img=curImgCvs.getAttribute("data-height")/curImgCvs.getAttribute("data-width"),
+		ratio_win=parent._winH/parent._winW,
+		largeImg=new Image(),
+		paddingTop=0,
+		paddingLeft=0,
+		realH=0,
+		realW=0;
 
 	largeImg.onload=function(){
 		switch (action){
@@ -133,10 +132,10 @@ photoAlbum.prototype.loadImg=function(parent,_curImgId,action,callback){
 	largeImg.src = curImgCvs.getAttribute("data-src");
 };
 
-photoAlbum.prototype.bindDOM=function()
+PhotoAlbum.prototype.bindDOM=function()
 {
-	var parent=this
-		,curImgId=0;
+	var parent=this,
+		curImgId=0;
 
 	$(this._breviary).on("tap","canvas",function(){
 		curImgId=this.id;

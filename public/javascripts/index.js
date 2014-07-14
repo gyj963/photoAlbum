@@ -33,7 +33,7 @@ var photolist=[
 		"src":"images/10.jpg"
 	}
 ];
-new photoAlbum({
+new PhotoAlbum({
 	               "containerId":"container",
 	               "list":photolist,
 				   "size":100
