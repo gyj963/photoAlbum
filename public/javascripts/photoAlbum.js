@@ -45,16 +45,16 @@ PhotoAlbum.prototype.renderImgs_square=function(parent,thisPhoto,curphotoNo){
 //	如果图片宽度比高度大20%，则认为这张图是横版, 否则认为是竖版
 	if(thisPhoto.width/thisPhoto.height>1.2){
 //		横版图 方块风格   (缩略图默认尺寸 100[宽]*100[高] 高显示完全，以填充满整个方块)
-		zoom_height=zoom_size;
+		zoom_height=thisLiW;
 		zoom_width=thisPhoto.width/thisPhoto.height*zoom_height;
 	}else{
 //		竖版图 方块风格   (缩略图默认尺寸 100[宽]*100[高] 宽显示完全，以填充满整个方块)
-		zoom_width=zoom_size;
+		zoom_width=thisLiW;
 		zoom_height=thisPhoto.height/thisPhoto.width*zoom_width;
 	}
 	thisPhoto._cvs.drawImage(thisPhoto,0,0,zoom_width,zoom_height);
-	thisPhoto._li.style.width=zoom_size+"px";
-	thisPhoto._li.style.height=zoom_size+"px";
+	thisPhoto._li.style.width=thisLiW+"px";
+	thisPhoto._li.style.height=thisLiW+"px";
 //	如果是每行第一个图片就不加paddingLeft 不然就要加
 	if(curphotoNo%numOfLine!=1){
 		thisPhoto._li.style.paddingLeft=paddingLeft+"px";
