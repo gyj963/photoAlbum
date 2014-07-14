@@ -50,7 +50,7 @@ var photolist=[
 
 接下来就可以调用相册组件啦，例如：
 ```{bash}
-new photoAlbum({
+new PhotoAlbum({
 	               "containerId":"container",   //   相册组件容器的id
 	               "list":photolist,   //   图片路径对象列表
 				   "size":120   //每个正方形缩略图的边长(单位：px)，可省（默认边长：100px）
