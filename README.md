@@ -1,4 +1,4 @@
-Calendar - 一个自制的移动web日历组件
+photoAlbum - 一个自制的移动web相册
 ==============================
 ##  查看效果
 在线预览 ：http://gyj963.github.io/photoAlbum/
