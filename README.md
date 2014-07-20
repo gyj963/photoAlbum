@@ -6,17 +6,19 @@ photoAlbum - 一个自制的移动web相册
 
 可使用电脑或移动设备进行查看~
 
-*注意：电脑浏览器查看请启用google的Emulate touch screen*
+*	电脑查看：浏览器查看请启用google的Emulate touch screen
+*	移动设备：可扫描以下二维码查看
+	![photoAlbum](screenshot/photoAlbum-tdc.png)
 
 ##功能介绍
 手机效果截图（Android）：
 
 *	点击缩略图可预览大图
-![calendar](screenshot/1.jpg)
+![photoAlbum](screenshot/1.jpg)
 
 
 *	左右滑动大图可查看上一张和下一张，点击大图，停止预览，回到缩略图
-![calendar](screenshot/2.jpg)
+![photoAlbum](screenshot/2.jpg)
 
 
 
