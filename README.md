@@ -8,6 +8,8 @@ photoAlbum - 一个自制的移动web相册
 
 *	电脑查看：浏览器查看请启用google的Emulate touch screen
 *	移动设备：可扫描以下二维码查看
+
+
 	![photoAlbum](screenshot/photoAlbum-tdc.png)
 
 ##功能介绍
