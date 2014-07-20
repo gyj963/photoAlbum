@@ -21,11 +21,8 @@ PhotoAlbum.prototype.init=function()
 	this._large.id = "large";
 	this._large.style.display = "none";
 	this._large.setAttribute("class","animated fadeIn");
-	this._largeCvs=document.createElement("canvas");
-	this._largeCvs.width=this._winW;
-	this._largeCvs.height=this._winH-2;
-	this._largeCvsContext=this._largeCvs.getContext("2d");
-	this._large.appendChild(this._largeCvs);
+	this._largeImg=document.createElement("img");
+	this._large.appendChild(this._largeImg);
 	this._container.appendChild(this._large);
 	this._breviaryUl=document.createElement("ul");
 	this._wholeCount=this._photos.length;
@@ -95,6 +92,7 @@ PhotoAlbum.prototype.loadImg=function(parent,_curImgId,action,callback){
 	var curImgCvs=document.getElementById(_curImgId),
 		ratio_img=curImgCvs.getAttribute("data-height")/curImgCvs.getAttribute("data-width"),
 		ratio_win=parent._winH/parent._winW,
+		curImgSrc=curImgCvs.getAttribute("data-src"),
 		largeImg=new Image(),
 		paddingTop=0,
 		paddingLeft=0,
@@ -104,32 +102,42 @@ PhotoAlbum.prototype.loadImg=function(parent,_curImgId,action,callback){
 	largeImg.onload=function(){
 		switch (action){
 			case "swipeLeft":
-				parent._largeCvs.setAttribute("class","animated bounceInRight");
+				parent._largeImg.setAttribute("class","animated bounceInRight");
 				break;
 			case "swipeRight":
-				parent._largeCvs.setAttribute("class","animated bounceInLeft");
+				parent._largeImg.setAttribute("class","animated bounceInLeft");
 				break;
 			default :break;
 		}
-		parent._largeCvsContext.fillStyle="1F364A";//白色为例子；
-		parent._largeCvsContext.fillRect(0,0,parent._winW,parent._winH);
+		parent._largeImg.src = curImgSrc;
 //		ratio_img<=ratio_win则认为这是一张横版
 		if(ratio_img<=ratio_win){
 			realW=parent._winW;
 			realH=ratio_img*realW;     //算出图片真实高度
 			paddingTop=parseInt((parent._winH-realH)/2);  //算出图片上方留白
-			parent._largeCvsContext.drawImage(this,0,paddingTop,realW,realH);
+			styles = {
+				width : realW,
+				height: realH,
+				paddingTop: paddingTop +"px",
+				paddingLeft: 0
+			};
 		}
 //		ratio_img>ratio_win则认为这是一张竖版
 		else if(ratio_img>ratio_win){
 			realH=parent._winH;
 			realW=realH/ratio_img;     //算出图片真实宽度
 			paddingLeft=parseInt((parent._winW-realW)/2);  //算出图片左边留白
-			parent._largeCvsContext.drawImage(this,paddingLeft,0,realW,realH);
+			styles = {
+				width : realW,
+				height : realH,
+				paddingTop: 0,
+				paddingLeft: paddingLeft +"px"
+			};
 		}
+		$(parent._largeImg).css(styles);
 		callback&&callback();
 	};
-	largeImg.src = curImgCvs.getAttribute("data-src");
+	largeImg.src = curImgSrc;
 };
 
 PhotoAlbum.prototype.bindDOM=function()
@@ -145,23 +153,26 @@ PhotoAlbum.prototype.bindDOM=function()
 	$(this._large).on("tap",function(){
 		parent._large.style.display="none";
 	}).on("swipeRight",function(){
-        var lastImgId=curImgId-1;
+        var lastImgId=curImgId- 1,
+	        largeImg=parent._largeImg;
+
         if(lastImgId>=0){
 	        parent.loadImg(parent,lastImgId,"swipeRight",function(){
-		        parent._largeCvs.addEventListener("webkitAnimationEnd",function(){
-			        parent._largeCvs.removeAttribute("class");
-			        parent._largeCvs.removeEventListener("webkitAnimationEnd");
+	            largeImg.addEventListener("webkitAnimationEnd",function(){
+			        largeImg.removeAttribute("class");
+			        largeImg.removeEventListener("webkitAnimationEnd");
 		        },false);
 		        curImgId=lastImgId;
 	        });
 		}
     }).on("swipeLeft",function(){
-        var nextImgId=parseInt(curImgId)+1;
+        var nextImgId=parseInt(curImgId)+ 1,
+	        largeImg=parent._largeImg;
         if(nextImgId<parent._wholeCount){
             parent.loadImg(parent,nextImgId,"swipeLeft",function(){
-	            parent._largeCvs.addEventListener("webkitAnimationEnd",function(){
-		            parent._largeCvs.removeAttribute("class");
-		            parent._largeCvs.removeEventListener("webkitAnimationEnd");
+	            largeImg.addEventListener("webkitAnimationEnd",function(){
+		            largeImg.removeAttribute("class");
+		            largeImg.removeEventListener("webkitAnimationEnd");
 	            },false);
 	            curImgId=nextImgId;
             });
